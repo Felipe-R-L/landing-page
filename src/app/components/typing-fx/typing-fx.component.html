@@ -1,0 +1,12 @@
+<pre
+  class="whitespace-pre-wrap inline"
+  [innerHTML]="highlightedDisplayText"
+></pre>
+<span
+  *ngIf="typingActive || (!typingComplete && !infinite)"
+  class="relative inline-block ml-1 pointer-events-none"
+  [style.bottom.px]="cursorOffsetBottom"
+  [class.opacity-0]="!showCursor"
+  aria-hidden="true"
+  >{{ cursorChar }}</span
+>

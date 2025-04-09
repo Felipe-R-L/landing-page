@@ -2,6 +2,19 @@
 @import "tailwindcss";
 @import "tailwindcss";
 @import "tailwindcss-primeui";
+
 body {
   font-family: "inter", sans-serif;
+  @apply bg-gradient-to-r from-black via-neutral-950 to-black text-white; /* Aplica o gradiente e cor de texto padrão aqui */
+  margin: 0; /* Garante que não haja margens padrão no body */
+  padding: 0; /* Garante que não haja paddings padrão no body */
+}
+/* Garante que o root ocupe a altura total */
+html,
+body {
+  height: 100%;
+}
+app-root {
+  display: block; /* Ou flex, dependendo da necessidade */
+  min-height: 100%;
 }

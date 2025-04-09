@@ -1,0 +1,17 @@
+/* Garante que o canvas ocupe toda a tela e fique no fundo */
+:host {
+  display: block;
+  position: fixed; /* Ou absolute, dependendo do container pai */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1; /* Coloca atrás de outros conteúdos */
+  overflow: hidden; /* Evita barras de rolagem no canvas */
+}
+
+.starfield-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}

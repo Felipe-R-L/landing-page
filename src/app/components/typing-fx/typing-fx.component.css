@@ -1,0 +1,16 @@
+/* Opcional: Adiciona uma transição suave para o cursor piscando */
+span[aria-hidden="true"] {
+  transition: opacity 0.1s ease-in-out; /* Ajuste a duração se quiser */
+}
+
+/* Se preferir uma animação CSS pura para piscar (remova o controle [class.opacity-0] e o cursorInterval) */
+/*
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.blinking-cursor {
+  animation: blink 1s step-end infinite; /* Use 1s para 500ms ligado/500ms desligado 
+}
+*/
