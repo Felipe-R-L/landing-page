@@ -1,29 +1,47 @@
-import { Injectable } from '@angular/core';
+// src/app/services/util/animation.service.ts
+import { Injectable, inject } from '@angular/core'; // inject adicionado
 import { Subject } from 'rxjs';
+import { Router } from '@angular/router'; // Router importado
 
 @Injectable({
   providedIn: 'root',
 })
 export class AnimationService {
-  // Subject para disparar o início do hyperspace
   private hyperspaceTriggerSource = new Subject<void>();
-  // Observable público que os componentes vão "ouvir" (com o '$' no final por convenção)
-  hyperspaceTrigger$ = this.hyperspaceTriggerSource.asObservable(); // <<< VERIFIQUE ESTA LINHA
+  hyperspaceTrigger$ = this.hyperspaceTriggerSource.asObservable();
 
-  // Subject para notificar o fim do hyperspace (opcional)
   private hyperspaceCompleteSource = new Subject<void>();
-  // Observable público para o fim
   hyperspaceComplete$ = this.hyperspaceCompleteSource.asObservable();
+
+  // Não precisamos mais de um Subject para request, vamos navegar direto
+  // private animatedNavigationRequestSource = new Subject<string>();
+  // animatedNavigationRequest$ = this.animatedNavigationRequestSource.asObservable();
+
+  private router = inject(Router); // Injeta o Router
 
   constructor() {}
 
-  // Método chamado pelo HeroComponent para iniciar
   triggerHyperspace(): void {
+    // Dispara o hyperspace (chamado pela IntroComponent)
+    console.log('AnimationService: Hyperspace triggered');
     this.hyperspaceTriggerSource.next();
   }
 
-  // Método chamado pelo StarfieldComponent para notificar o fim <<< VERIFIQUE ESTE MÉTODO
   notifyHyperspaceComplete(): void {
+    // Avisa que o hyperspace terminou (chamado pelo StarfieldComponent)
+    console.log('AnimationService: Hyperspace notified as complete');
     this.hyperspaceCompleteSource.next();
+  }
+
+  // ** NOVO: Método chamado pelos botões "Próxima Página Animada" **
+  requestAnimatedNavigation(targetRoute: string): void {
+    console.log(
+      `AnimationService: Requesting animated navigation TO ${targetRoute} VIA Intro`
+    );
+    // Navega para a IntroComponent (rota '/') passando a rota final e um flag
+    this.router.navigate(['/'], {
+      state: { targetRoute: targetRoute, animated: true },
+    });
+    // A IntroComponent vai detectar esse 'state' e iniciar a sequência
   }
 }

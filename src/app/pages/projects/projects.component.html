@@ -1,0 +1,220 @@
+<section
+  [@portfolioFade]="portfolioState"
+  (@portfolioFade.done)="onFadeOutDone($event)"
+  class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24"
+>
+  <h2
+    class="text-4xl md:text-5xl font-bold text-center text-transparent bg-clip-text bg-gradient-to-r from-gray-200 via-gray-400 to-gray-600"
+  >
+    Projetos em Destaque
+  </h2>
+
+  <p
+    class="text-center text-lg text-gray-400 max-w-3xl mx-auto mt-4 mb-16 md:mb-20 leading-relaxed"
+  >
+    Infelizmente alguns projetos abaixo estão sob NDA, impedindo que eu forneça
+    muitos detalhes, mas em breve irei adicionar novos projetos pessoais open
+    source.
+  </p>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10">
+    <p-card
+      styleClass="bg-gradient-to-br from-gray-900 to-slate-800 border border-slate-700 rounded-xl overflow-hidden shadow-lg transform transition-transform duration-300 hover:scale-105"
+    >
+      <ng-template pTemplate="header">
+        <img
+          alt="SaaS para Agronegócio"
+          src="/images/farm-card.jpg"
+          class="w-full h-52 object-cover"
+        />
+      </ng-template>
+      <ng-template pTemplate="title">
+        <h3 class="text-2xl font-bold text-white">SaaS para Agronegócio</h3>
+      </ng-template>
+      <ng-template pTemplate="subtitle">
+        <div class="flex flex-wrap gap-2 mt-1 mb-4">
+          <p-chip
+            label="Angular"
+            styleClass="!bg-red-900/50 !text-red-200 !text-xs !px-2 !py-0.5"
+          ></p-chip>
+          <p-chip
+            label="PrimeNG"
+            styleClass="!bg-indigo-900/50 !text-indigo-200 !text-xs !px-2 !py-0.5"
+          ></p-chip>
+        </div>
+      </ng-template>
+      <p class="text-gray-400 text-sm mb-5 min-h-[4rem]">
+        Aplicação web completa para monitoramento de falhas de plantio com mapa
+        interativo - Google Maps API
+      </p>
+      <ng-template pTemplate="footer">
+        <div class="flex justify-end gap-3 pt-3 border-t border-slate-700">
+          <p-button
+            label="Ver Demo"
+            icon="pi pi-external-link"
+            styleClass="p-button-sm p-button-outlined p-button-secondary"
+          ></p-button>
+          <p-button
+            label="Código"
+            icon="pi pi-github"
+            styleClass="p-button-sm p-button-secondary"
+          ></p-button>
+        </div>
+      </ng-template>
+    </p-card>
+
+    <p-card
+      styleClass="bg-gradient-to-br from-gray-900 to-slate-800 border border-slate-700 rounded-xl overflow-hidden shadow-lg transform transition-transform duration-300 hover:scale-105"
+    >
+      <ng-template pTemplate="header">
+        <img
+          alt="SaaS para Perfuratrizes"
+          src="/images/drill-card.jpg"
+          class="w-full h-52 object-cover"
+        />
+      </ng-template>
+      <ng-template pTemplate="title">
+        <h3 class="text-2xl font-bold text-white">SaaS para perfuratrizes</h3>
+      </ng-template>
+      <ng-template pTemplate="subtitle">
+        <div class="flex flex-wrap gap-2 mt-1 mb-4">
+          <p-chip
+            label="Laravel/Blade"
+            styleClass="!bg-red-900/50 !text-red-200 !text-xs !px-2 !py-0.5"
+          ></p-chip>
+          <p-chip
+            label="Apache ECharts"
+            styleClass="!bg-indigo-900/50 !text-indigo-200 !text-xs !px-2 !py-0.5"
+          ></p-chip>
+        </div>
+      </ng-template>
+      <p class="text-gray-400 text-sm mb-5 min-h-[4rem]">
+        Contribuição para uma plataforma de telemetria perfuratrizes. Elaboração
+        de um dashboard para monitoramento do motor diesel.
+      </p>
+      <ng-template pTemplate="footer">
+        <div class="flex justify-end gap-3 pt-3 border-t border-slate-700">
+          <p-button
+            label="Ver Demo"
+            icon="pi pi-external-link"
+            styleClass="p-button-sm p-button-outlined p-button-secondary"
+          ></p-button>
+          <p-button
+            label="Código"
+            icon="pi pi-github"
+            styleClass="p-button-sm p-button-secondary"
+          ></p-button>
+        </div>
+      </ng-template>
+    </p-card>
+
+    <p-card
+      styleClass="bg-gradient-to-br from-gray-900/70 to-slate-800/70 border border-slate-700/50 rounded-xl overflow-hidden shadow-lg opacity-80"
+    >
+      <ng-template pTemplate="header">
+        <div
+          class="w-full h-52 bg-slate-700/30 flex items-center justify-center"
+        >
+          <i class="pi pi-spin pi-cog text-4xl text-slate-500"></i>
+        </div>
+      </ng-template>
+      <ng-template pTemplate="title">
+        <h3 class="text-2xl font-bold text-white">Novo Projeto em Breve...</h3>
+      </ng-template>
+      <ng-template pTemplate="subtitle">
+        <div class="flex flex-wrap gap-2 mt-1 mb-4">
+          <p-chip
+            label="..."
+            styleClass="!bg-gray-700/50 !text-gray-400 !text-xs !px-2 !py-0.5 opacity-50"
+          ></p-chip>
+        </div>
+      </ng-template>
+      <p class="text-gray-500 text-sm mb-5 min-h-[4rem]">
+        Estou trabalhando em novos projetos pessoais e estudos. Volte em breve
+        para novidades!
+      </p>
+      <ng-template pTemplate="footer">
+        <div class="flex justify-end gap-3 pt-3 border-t border-slate-700/50">
+          <p-button
+            label="Ver Demo"
+            icon="pi pi-external-link"
+            styleClass="p-button-sm p-button-outlined p-button-secondary"
+            [disabled]="true"
+            pTooltip="Sob NDA"
+            tooltipPosition="top"
+          ></p-button>
+          <p-button
+            label="Código"
+            icon="pi pi-github"
+            styleClass="p-button-sm p-button-secondary"
+            [disabled]="true"
+            pTooltip="Sob NDA"
+            tooltipPosition="top"
+          ></p-button>
+        </div>
+      </ng-template>
+    </p-card>
+  </div>
+
+  <div class="mt-20 md:mt-32 text-center max-w-3xl mx-auto">
+    <h3
+      class="text-3xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-gray-200 via-gray-400 to-gray-600"
+    >
+      Minhas Skills
+    </h3>
+    <div class="flex flex-wrap justify-center gap-3 md:gap-4">
+      <p-chip
+        label="JavaScript / TypeScript"
+        icon="devicon-typescript-plain"
+        styleClass="!bg-gray-700 !text-gray-200 !px-4 !py-2 !text-sm md:!text-base"
+      ></p-chip>
+      <p-chip
+        label="Angular"
+        icon="devicon-angular-plain"
+        styleClass="!bg-gray-700 !text-gray-200 !px-4 !py-2 !text-sm md:!text-base"
+      ></p-chip>
+      <p-chip
+        label="Node.js | NestJS"
+        icon="devicon-nestjs-original"
+        styleClass="!bg-gray-700 !text-gray-200 !px-4 !py-2 !text-sm md:!text-base"
+      ></p-chip>
+      <p-chip
+        label="Google Cloud (GCP)"
+        icon="devicon-googlecloud-plain"
+        styleClass="!bg-gray-700 !text-gray-200 !px-4 !py-2 !text-sm md:!text-base"
+      ></p-chip>
+      <p-chip
+        label="HTML5 & CSS3/SASS"
+        icon="devicon-html5-plain-wordmark"
+        styleClass="!bg-gray-700 !text-gray-200 !px-4 !py-2 !text-sm md:!text-base"
+      ></p-chip>
+      <p-chip
+        label="Tailwind CSS"
+        icon="devicon-tailwindcss-original"
+        styleClass="!bg-gray-700 !text-gray-200 !px-4 !py-2 !text-sm md:!text-base"
+      ></p-chip>
+      <p-chip
+        label="PrimeNG / CoreUI"
+        icon="pi pi-star"
+        styleClass="!bg-gray-700 !text-gray-200 !px-4 !py-2 !text-sm md:!text-base"
+      ></p-chip>
+      <p-chip
+        label="Git & GitHub | BitBucket"
+        icon="pi pi-github"
+        styleClass="!bg-gray-700 !text-gray-200 !px-4 !py-2 !text-sm md:!text-base"
+      ></p-chip>
+    </div>
+  </div>
+
+  <div class="mt-20 md:mt-24 text-center">
+    <p-button
+      label="Sobre Mim (Animação)"
+      icon="pi pi-angle-double-right"
+      iconPos="right"
+      rounded
+      styleClass="p-button-lg text-lg p-button-secondary p-button-outlined"
+      (click)="startAnimatedNav('/about')"
+      [disabled]="isTransitioning"
+    ></p-button>
+  </div>
+</section>

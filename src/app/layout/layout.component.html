@@ -1,8 +1,5 @@
-<div class="min-h-screen flex flex-col p-6">
-  <app-header></app-header>
-  <main class="flex-1 px-4 grow relative z-10">
-    <router-outlet></router-outlet>
-  </main>
-
-  <app-footer></app-footer>
+<div class="min-h-screen flex flex-col">
+  <app-header class="sticky top-0 z-20"></app-header>
+  <main class="flex-grow relative z-10"><router-outlet></router-outlet></main>
+  <app-footer class="z-10"></app-footer>
 </div>

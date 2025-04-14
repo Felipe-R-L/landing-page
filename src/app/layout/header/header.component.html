@@ -1,3 +1,23 @@
-<header class="bg-transparent">
-  <p-button label="Início" variant="outlined" rounded class=""></p-button>
+<header class="bg-transparent px-4 sm:px-6 py-4">
+  <nav class="flex items-center justify-center gap-4 md:gap-6">
+    <a
+      routerLink="/"
+      routerLinkActive="text-purple-400 font-semibold"
+      [routerLinkActiveOptions]="{ exact: true }"
+      class="text-gray-300 hover:text-white transition-colors"
+      >Intro</a
+    >
+    <a
+      routerLink="/projects"
+      routerLinkActive="text-purple-400 font-semibold"
+      class="text-gray-300 hover:text-white transition-colors"
+      >Projetos</a
+    >
+    <a
+      routerLink="/about"
+      routerLinkActive="text-purple-400 font-semibold"
+      class="text-gray-300 hover:text-white transition-colors"
+      >Sobre Mim</a
+    >
+  </nav>
 </header>

@@ -6,10 +6,20 @@ import {
   ViewChild,
   NgZone,
   ChangeDetectionStrategy,
+  HostListener,
+  inject,
 } from '@angular/core';
 import * as THREE from 'three';
-import { AnimationService } from '../../services/util/animation.service';
-import { Subscription } from 'rxjs';
+import { EXRLoader } from 'three/examples/jsm/loaders/EXRLoader.js';
+import { AnimationService } from '../../services/util/animation.service'; // Ajuste o caminho
+import { Subscription, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+
+// Funções de Easing
+const easeInQuart = (t: number): number => t * t * t * t;
+const easeOutQuad = (t: number): number => t * (2 - t);
+const easeInQuad = (t: number): number => t * t;
+const linear = (t: number): number => t;
 
 @Component({
   selector: 'app-starfield',
@@ -26,42 +36,79 @@ export class StarfieldComponent implements OnInit, OnDestroy {
   private renderer!: THREE.WebGLRenderer;
   private scene!: THREE.Scene;
   private camera!: THREE.PerspectiveCamera;
-  private stars!: THREE.Points;
+  private starLines!: THREE.LineSegments;
   private starVertices: number[] = [];
   private starVelocities: { x: number; y: number; z: number }[] = [];
   private clock = new THREE.Clock();
-
   private frameId: number | null = null;
+
+  // Estados
   private hyperspaceActive = false;
   private hyperspaceProgress = 0;
-  private hyperspaceDuration = 2.5;
+  private isWarmingUp = true;
+  private warmupProgress = 0;
 
-  private cameraFarPlane = 1000; // Definir o far plane da câmera como uma variável
+  // Configurações (Versão estável com aceleração rápida)
+  private hyperspaceDuration = 2.5; // Duração total do hyperspace
+  private hyperspaceStretchPhaseEnd = 0.85; // Mais tempo esticando, menos acelerando
+  private warmupDuration = 2.5;
+  private cameraNearPlane = 0.1;
+  private cameraFarPlane = 1000;
+  private useLogarithmicDepthBuffer = false; // Mantido desabilitado
+  private initialFov = 60;
+  private hyperspaceFovIncrease = 60;
+  private baseLineLengthFactor = 0.02;
+  private hyperspaceLineLengthFactor = 1.5;
+  private hyperspaceMaxSpeedFactor = 250;
+  private desiredLineWidth = 1;
+  private initialZNear = -10;
+  private initialZFar = -200;
+  private starMinRadius = 100;
+  private starMaxRadius = 750;
+  private starRepositionDepthFactor = 0.95;
+  private starRepositionVariance = 100;
+  private galaxyTexturePath = '/textures/galax.exr'; // CONFIRME O CAMINHO
+  private toneMappingExposure = 0.3;
 
-  private hyperspaceSubscription: Subscription | undefined;
+  private animationService = inject(AnimationService);
+  private destroy$ = new Subject<void>();
 
-  constructor(
-    private ngZone: NgZone,
-    private animationService: AnimationService
-  ) {}
+  constructor(private ngZone: NgZone) {}
 
   ngOnInit(): void {
     this.initThree();
+    this.createGalaxyBackground();
     this.createStars();
     this.startRenderingLoop();
 
-    this.hyperspaceSubscription =
-      this.animationService.hyperspaceTrigger$.subscribe(() => {
-        this.startHyperspace();
+    // ** NOVO/VERIFICADO: Escuta o trigger do hyperspace **
+    this.animationService.hyperspaceTrigger$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => {
+        if (!this.isWarmingUp && !this.hyperspaceActive) {
+          this.startHyperspace();
+        }
       });
   }
 
   ngOnDestroy(): void {
     this.stopRenderingLoop();
-    this.hyperspaceSubscription?.unsubscribe();
+    this.destroy$.next();
+    this.destroy$.complete();
+    // ... (limpeza de renderer, scene, etc. como antes) ...
     if (this.renderer) {
       this.renderer.dispose();
     }
+    this.starVertices = [];
+    this.starVelocities = [];
+  }
+
+  private disposeSingleMaterialTextures(material: THREE.Material): void {
+    (Object.keys(material) as (keyof THREE.Material)[]).forEach((key) => {
+      const v = (material as any)[key];
+      if (v instanceof THREE.Texture) v.dispose();
+    });
+    material.dispose();
   }
 
   private get canvas(): HTMLCanvasElement {
@@ -71,157 +118,238 @@ export class StarfieldComponent implements OnInit, OnDestroy {
   private initThree(): void {
     this.scene = new THREE.Scene();
     this.camera = new THREE.PerspectiveCamera(
-      60,
+      this.initialFov,
       this.getAspectRatio(),
-      1, // Near plane - importante para reposicionamento
-      this.cameraFarPlane // Far plane
+      this.cameraNearPlane,
+      this.cameraFarPlane
     );
-    // Posição inicial da câmera ligeiramente atrás para ver as estrelas no início
-    this.camera.position.z = 1;
-
+    this.camera.position.z = 0;
     this.renderer = new THREE.WebGLRenderer({
       canvas: this.canvas,
       antialias: true,
-      alpha: true,
+      logarithmicDepthBuffer: this.useLogarithmicDepthBuffer,
     });
-    this.renderer.setPixelRatio(devicePixelRatio);
+    this.renderer.setPixelRatio(window.devicePixelRatio);
     this.renderer.setSize(this.canvas.clientWidth, this.canvas.clientHeight);
+    this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    this.renderer.toneMappingExposure = this.toneMappingExposure;
+    this.renderer.outputColorSpace = THREE.SRGBColorSpace;
   }
 
   private getAspectRatio(): number {
-    return this.canvas.clientWidth / this.canvas.clientHeight;
+    if (!this.canvasRef?.nativeElement) return 1;
+    const h = this.canvas.clientHeight;
+    return h === 0 ? 1 : this.canvas.clientWidth / h;
+  }
+
+  private createGalaxyBackground(): void {
+    if (!this.galaxyTexturePath) return;
+    const loader = new EXRLoader();
+    loader.load(
+      this.galaxyTexturePath,
+      (t) => {
+        t.mapping = THREE.EquirectangularReflectionMapping;
+        if (this.scene) {
+          this.scene.background = t;
+          this.scene.environment = t;
+        } else t.dispose();
+      },
+      undefined,
+      (e) => {
+        console.error('Starfield EXR Error:', e);
+        if (this.scene) this.scene.background = new THREE.Color(0x000005);
+      }
+    );
+  }
+
+  private getRandomPositionInRing(
+    minR: number,
+    maxR: number
+  ): { x: number; y: number } {
+    const a = Math.random() * Math.PI * 2;
+    const r = THREE.MathUtils.randFloat(minR, maxR);
+    return { x: r * Math.cos(a), y: r * Math.sin(a) };
   }
 
   private createStars(): void {
-    const starCount = 15000;
-    const geometry = new THREE.BufferGeometry();
+    const starCount = 5000;
+    const geom = new THREE.BufferGeometry();
     this.starVertices = [];
     this.starVelocities = [];
-    const initialSpreadZ = this.cameraFarPlane;
-
+    const zF = this.initialZFar;
+    const zN = this.initialZNear;
     for (let i = 0; i < starCount; i++) {
-      const x = THREE.MathUtils.randFloatSpread(1500);
-      const y = THREE.MathUtils.randFloatSpread(1500);
-      const z = THREE.MathUtils.randFloat(
-        -initialSpreadZ,
-        this.camera.position.z - 50
+      const { x, y } = this.getRandomPositionInRing(
+        this.starMinRadius,
+        this.starMaxRadius
       );
-
-      this.starVertices.push(x, y, z);
-
-      // --- AJUSTE DA VELOCIDADE Z ---
-      // Velocidade Z POSITIVA para mover em direção à câmera (+Z)
-      const speedZ = THREE.MathUtils.randFloat(5.0, 20.0); // <<< ALTERADO PARA POSITIVO
-
-      this.starVelocities.push({
-        x: 0,
-        y: 0,
-        z: speedZ, // <<< USA A VELOCIDADE POSITIVA
-      });
+      const z = THREE.MathUtils.randFloat(zF, zN);
+      this.starVertices.push(x, y, z, x, y, z);
+      const vZ = THREE.MathUtils.randFloat(15.0, 45.0);
+      this.starVelocities.push({ x: 0, y: 0, z: vZ });
     }
-    geometry.setAttribute(
+    geom.setAttribute(
       'position',
       new THREE.Float32BufferAttribute(this.starVertices, 3)
     );
-    // ... (criação do material e Points)
-    const material = new THREE.PointsMaterial({
-      // Recriando para clareza
+    const mat = new THREE.LineBasicMaterial({
       color: 0xffffff,
-      size: 0.7,
-      sizeAttenuation: true,
       transparent: true,
-      opacity: 0.8,
+      opacity: 0.7,
+      linewidth: this.desiredLineWidth,
+      depthWrite: false,
+      blending: THREE.AdditiveBlending,
     });
-    this.stars = new THREE.Points(geometry, material);
-    this.scene.add(this.stars);
+    this.starLines = new THREE.LineSegments(geom, mat);
+    if (this.scene) this.scene.add(this.starLines);
   }
 
   private updateStars(deltaTime: number): void {
-    const positions = this.stars.geometry.attributes['position']
-      .array as Float32Array;
-    let currentSpeedFactor = 1.0;
-
+    if (
+      !this.starLines?.geometry?.attributes['position'] ||
+      !this.starLines.material ||
+      !this.camera
+    )
+      return;
+    const pos = (
+      this.starLines.geometry.attributes['position'] as THREE.BufferAttribute
+    ).array as Float32Array;
+    const mat = this.starLines.material as THREE.LineBasicMaterial;
+    let wpMult = 1.0;
+    if (this.isWarmingUp) {
+      this.warmupProgress += deltaTime / this.warmupDuration;
+      this.warmupProgress = Math.min(this.warmupProgress, 1.0);
+      wpMult = easeInQuart(this.warmupProgress);
+      if (this.warmupProgress >= 1.0) this.isWarmingUp = false;
+    }
+    let speedF = 1.0;
+    let lenF = this.baseLineLengthFactor;
+    let fovUpd = false;
     if (this.hyperspaceActive) {
-      // ... (lógica do hyperspace para calcular currentSpeedFactor > 1.0)
       this.hyperspaceProgress += deltaTime / this.hyperspaceDuration;
-      this.hyperspaceProgress = Math.min(this.hyperspaceProgress, 1);
-      currentSpeedFactor = 1.0 + this.hyperspaceProgress * 250; // Fator de velocidade do hyperspace
-
-      // ... (mudanças visuais do hyperspace: material, fov) ...
-      const material = this.stars.material as THREE.PointsMaterial;
-      material.size = 0.5 + this.hyperspaceProgress * 3;
-      material.opacity = 0.8 - this.hyperspaceProgress * 0.5;
-      this.camera.fov = 60 + this.hyperspaceProgress * 40;
-      this.camera.updateProjectionMatrix();
-
-      if (this.hyperspaceProgress >= 1) {
-        // ... (reset do estado pós-hyperspace) ...
+      this.hyperspaceProgress = Math.min(this.hyperspaceProgress, 1.0);
+      if (this.hyperspaceProgress <= this.hyperspaceStretchPhaseEnd) {
+        const strP = this.hyperspaceProgress / this.hyperspaceStretchPhaseEnd;
+        lenF =
+          this.baseLineLengthFactor +
+          linear(strP) *
+            (this.hyperspaceLineLengthFactor - this.baseLineLengthFactor);
+        mat.opacity = 0.7 - linear(strP) * 0.2;
+        speedF = 1.0;
+        if (this.camera.fov !== this.initialFov) {
+          this.camera.fov = this.initialFov;
+          fovUpd = true;
+        }
+      } else {
+        const accP =
+          (this.hyperspaceProgress - this.hyperspaceStretchPhaseEnd) /
+          (1.0 - this.hyperspaceStretchPhaseEnd);
+        lenF = this.hyperspaceLineLengthFactor;
+        speedF = 1.0 + easeInQuad(accP) * (this.hyperspaceMaxSpeedFactor - 1.0);
+        this.camera.fov =
+          this.initialFov + easeInQuad(accP) * this.hyperspaceFovIncrease;
+        fovUpd = true;
+        mat.opacity = 0.5 + easeInQuad(accP) * 0.3;
+      }
+      if (this.hyperspaceProgress >= 1.0) {
         this.hyperspaceActive = false;
-        this.hyperspaceProgress = 0;
-        console.log('Hyperspace complete!');
-        this.animationService.notifyHyperspaceComplete();
-        (this.stars.material as THREE.PointsMaterial).size = 0.7;
-        (this.stars.material as THREE.PointsMaterial).opacity = 0.8;
-        this.camera.fov = 60;
-        this.camera.updateProjectionMatrix();
+        console.log('Starfield: Hyperspace animation finished.');
+        this.animationService.notifyHyperspaceComplete(); /* <-- ** NOTIFICA CONCLUSÃO ** */
       }
+    } else if (!this.isWarmingUp && this.camera.fov > this.initialFov) {
+      const dF = Math.exp(-deltaTime * 3.0);
+      this.camera.fov =
+        this.initialFov + (this.camera.fov - this.initialFov) * dF;
+      fovUpd = true;
+      mat.opacity = 0.7 + (mat.opacity - 0.7) * dF;
+      lenF =
+        this.baseLineLengthFactor + (lenF - this.baseLineLengthFactor) * dF;
+      if (this.camera.fov - this.initialFov < 0.1) this.resetHyperspaceState();
     } else {
-      currentSpeedFactor = 1.0; // Garante velocidade normal
+      mat.opacity = 0.7;
     }
-
-    for (let i = 0; i < positions.length; i += 3) {
-      const velocity = this.starVelocities[i / 3];
-
-      // Atualiza posição Z usando a velocidade Z (agora POSITIVA)
-      positions[i + 2] += velocity.z * deltaTime * currentSpeedFactor; // <<< ESTA SOMA AGORA AUMENTA O Z
-
-      // CONDIÇÃO DE REPOSICIONAMENTO (permanece a mesma):
-      // Se a estrela passou da câmera (Z > camera.position.z)
-      if (positions[i + 2] > this.camera.position.z) {
-        // Reposiciona ela bem longe no fundo (Z negativo grande)
-        positions[i] = THREE.MathUtils.randFloatSpread(1500);
-        positions[i + 1] = THREE.MathUtils.randFloatSpread(1500);
-        // O reposicionamento para Z negativo grande estava correto
-        positions[i + 2] =
-          -this.cameraFarPlane - THREE.MathUtils.randFloat(0, 500);
+    if (fovUpd) this.camera.updateProjectionMatrix();
+    const nV = pos.length;
+    const rZ = this.camera.position.z - this.starRepositionDepthFactor;
+    for (let i = 0; i < nV; i += 6) {
+      const v = this.starVelocities[i / 6];
+      const bS = v.z * deltaTime * speedF;
+      const bL = v.z * lenF;
+      const fS = bS * wpMult;
+      const fL = bL * wpMult;
+      pos[i + 5] += fS;
+      pos[i + 2] = pos[i + 5] - fL;
+      pos[i] = pos[i + 3];
+      pos[i + 1] = pos[i + 4];
+      if (pos[i + 5] > rZ) {
+        const { x: nX, y: nY } = this.getRandomPositionInRing(
+          this.starMinRadius,
+          this.starMaxRadius
+        );
+        const nZ =
+          this.initialZFar -
+          THREE.MathUtils.randFloat(0, this.starRepositionVariance);
+        pos[i + 3] = nX;
+        pos[i + 4] = nY;
+        pos[i + 5] = nZ;
+        pos[i] = nX;
+        pos[i + 1] = nY;
+        pos[i + 2] = nZ;
       }
     }
-
-    this.stars.geometry.attributes['position'].needsUpdate = true;
+    (
+      this.starLines.geometry.attributes['position'] as THREE.BufferAttribute
+    ).needsUpdate = true;
   }
 
   private startRenderingLoop(): void {
     this.ngZone.runOutsideAngular(() => {
+      this.clock.getDelta();
       const loop = () => {
         this.frameId = requestAnimationFrame(loop);
-        const deltaTime = this.clock.getDelta();
-        this.updateStars(deltaTime);
-        this.renderer.render(this.scene, this.camera);
+        const dt = Math.min(this.clock.getDelta(), 0.05);
+        if (this.renderer && this.scene && this.camera) {
+          this.updateStars(dt);
+          this.renderer.render(this.scene, this.camera);
+        } else {
+          this.stopRenderingLoop();
+        }
       };
       loop();
     });
   }
-
-  // ... stopRenderingLoop, startHyperspace, onWindowResize ...
   private stopRenderingLoop(): void {
-    if (this.frameId) {
+    if (this.frameId !== null) {
       cancelAnimationFrame(this.frameId);
       this.frameId = null;
     }
   }
-
   private startHyperspace(): void {
-    if (!this.hyperspaceActive) {
-      console.log('Starting hyperspace!');
-      this.hyperspaceActive = true;
-      this.hyperspaceProgress = 0;
-      this.clock.getDelta();
-    }
+    console.log('Starfield: Starting hyperspace sequence!');
+    this.hyperspaceActive = true;
+    this.hyperspaceProgress = 0;
+    this.clock.getDelta();
   }
-
-  onWindowResize(): void {
-    this.camera.aspect = this.getAspectRatio();
-    this.camera.updateProjectionMatrix();
-    this.renderer.setSize(this.canvas.clientWidth, this.canvas.clientHeight);
+  private resetHyperspaceState(): void {
+    console.log('Starfield: Resetting state.');
+    this.hyperspaceActive = false;
+    this.hyperspaceProgress = 0;
+    if (this.camera) {
+      this.camera.fov = this.initialFov;
+      this.camera.updateProjectionMatrix();
+    }
+    if (this.starLines?.material)
+      (this.starLines.material as THREE.LineBasicMaterial).opacity = 0.7;
+  }
+  @HostListener('window:resize', ['$event']) onWindowResize(): void {
+    if (this.camera && this.renderer && this.canvas) {
+      const w = this.canvas.clientWidth;
+      const h = this.canvas.clientHeight;
+      if (w > 0 && h > 0) {
+        this.camera.aspect = w / h;
+        this.camera.updateProjectionMatrix();
+        this.renderer.setSize(w, h);
+      }
+    }
   }
 }

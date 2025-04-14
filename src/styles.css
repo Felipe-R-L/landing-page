@@ -1,11 +1,13 @@
 /* You can add global styles to this file, and also import other style files */
+@import "https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap";
 @import "tailwindcss";
 @import "tailwindcss";
 @import "tailwindcss-primeui";
+@import "primeicons/primeicons.css";
 
 body {
   font-family: "inter", sans-serif;
-  @apply bg-gradient-to-r from-black via-neutral-950 to-black text-white; /* Aplica o gradiente e cor de texto padrão aqui */
+
   margin: 0; /* Garante que não haja margens padrão no body */
   padding: 0; /* Garante que não haja paddings padrão no body */
 }
