@@ -19,6 +19,7 @@ import { AnimationService } from '../../services/util/animation.service'; // Aju
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { ButtonModule } from 'primeng/button';
+import { ChipModule } from 'primeng/chip';
 
 // ** NOVO: Definindo a Interface para os links sociais **
 interface SocialLink {
@@ -31,7 +32,7 @@ interface SocialLink {
 @Component({
   selector: 'app-about',
   standalone: true,
-  imports: [CommonModule, ButtonModule],
+  imports: [CommonModule, ButtonModule, ChipModule],
   templateUrl: './about.component.html',
   styleUrls: ['./about.component.css'],
   animations: [

@@ -59,9 +59,9 @@ export class IntroComponent implements OnInit, OnDestroy {
   private requestedTargetRoute: string = '/projects'; // Destino padrão é /projects
   private hyperspaceCompleteSub: Subscription | null = null;
 
-  typedIntroText = `[Olá,]{text-3xl md:text-3xl} [sou o Felipe!]{text-3xl md:text-3xl font-semibold} [Seja bem-vindo ao meu Portfólio.]{text-lg md:text-3xl text-gray-400}`;
-  sloganLine1 = 'Think(fast);';
-  sloganLine2 = 'Deploy(faster);';
+  typedIntroText = `[Olá,]{text-3xl md:text-3xl} [sou o Felipe!]{text-3xl md:text-3xl font-semibold}\n [Seja bem-vindo ao meu Portfólio.]{text-lg md:text-3xl text-gray-400}`;
+  sloganLine1 = 'Think(big);';
+  sloganLine2 = 'Deploy(great);';
   sloganDescription =
     'Construa qualquer coisa que você imaginar, sem se preocupar com a implementação.';
   ctaButtonLabel = 'Iniciar Exploração';

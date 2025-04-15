@@ -67,8 +67,8 @@ export class StarfieldComponent implements OnInit, OnDestroy {
   private starMaxRadius = 750;
   private starRepositionDepthFactor = 0.95;
   private starRepositionVariance = 100;
-  private galaxyTexturePath = '/textures/galax.exr'; // CONFIRME O CAMINHO
-  private toneMappingExposure = 0.3;
+  private galaxyTexturePath = '/textures/galaxy.exr'; // CONFIRME O CAMINHO
+  private toneMappingExposure = 3;
 
   private animationService = inject(AnimationService);
   private destroy$ = new Subject<void>();
