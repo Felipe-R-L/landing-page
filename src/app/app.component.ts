@@ -2,6 +2,10 @@ import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { StarfieldComponent } from './components/starfield/starfield.component';
+import { inject as vercelAnalytics } from '@vercel/analytics';
+import { injectSpeedInsights } from '@vercel/speed-insights';
+
+injectSpeedInsights();
 
 @Component({
   selector: 'app-root',
@@ -11,4 +15,9 @@ import { StarfieldComponent } from './components/starfield/starfield.component';
 })
 export class AppComponent {
   title = 'landing-page';
+
+  constructor() {
+    vercelAnalytics();
+    injectSpeedInsights();
+  }
 }
