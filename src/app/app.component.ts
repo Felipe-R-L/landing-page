@@ -14,7 +14,7 @@ injectSpeedInsights();
   styleUrl: './app.component.css',
 })
 export class AppComponent {
-  title = 'landing-page';
+  title = $localize`landing-page`;
 
   constructor() {
     vercelAnalytics();

@@ -52,20 +52,20 @@ export class AboutComponent implements OnInit, OnDestroy {
     {
       name: 'LinkedIn',
       url: 'https://www.linkedin.com/in/felipe-rodrigues-leone/',
-      iconClass: 'pi pi-linkedin',
-      ariaLabel: 'Meu perfil no LinkedIn',
+      iconClass: $localize`pi pi-linkedin`,
+      ariaLabel: $localize`Meu perfil no LinkedIn`,
     },
     {
       name: 'GitHub',
       url: 'https://github.com/Felipe-R-L',
-      iconClass: 'pi pi-github',
-      ariaLabel: 'Meus repositórios no GitHub',
+      iconClass: $localize`pi pi-github`,
+      ariaLabel: $localize`Meus repositórios no GitHub`,
     },
     {
       name: 'Twitter',
-      url: 'https://x.com/RFelipe_jpg',
-      iconClass: 'pi pi-twitter',
-      ariaLabel: 'Meu perfil no Twitter/X',
+      url: `https://x.com/RFelipe_jpg`,
+      iconClass: $localize`pi pi-twitter`,
+      ariaLabel: $localize`Meu perfil no Twitter/X`,
     },
   ];
 

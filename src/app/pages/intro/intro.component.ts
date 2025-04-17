@@ -1,4 +1,3 @@
-// src/app/pages/intro/intro.component.ts
 import {
   Component,
   OnInit,
@@ -21,7 +20,10 @@ import { AnimationService } from '../../services/util/animation.service';
 import { Subject, Subscription } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 import { ButtonModule } from 'primeng/button';
-import { TypingFXComponent } from '../../components/typing-fx/typing-fx.component';
+import {
+  TypingFXComponent,
+  Segment,
+} from '../../components/typing-fx/typing-fx.component'; // Importando Segment
 
 @Component({
   selector: 'app-intro',
@@ -56,19 +58,36 @@ export class IntroComponent implements OnInit, OnDestroy {
   private router = inject(Router);
   private cdRef = inject(ChangeDetectorRef);
   private destroy$ = new Subject<void>();
-  private requestedTargetRoute: string = '/projects'; // Destino padrão é /projects
+  private requestedTargetRoute: string = '/projects';
   private hyperspaceCompleteSub: Subscription | null = null;
 
-  typedIntroText = `[Olá,]{text-3xl md:text-3xl} [sou o Felipe!]{text-3xl md:text-3xl font-semibold}\n [Seja bem-vindo ao meu Portfólio.]{text-lg md:text-3xl text-gray-400}`;
-  sloganLine1 = 'Think(big);';
-  sloganLine2 = 'Deploy(great);';
-  sloganDescription =
-    'Construa qualquer coisa que você imaginar, sem se preocupar com a implementação.';
-  ctaButtonLabel = 'Iniciar Exploração';
+  typedIntroSegments: Segment[] = [
+    {
+      type: 'styled',
+      content: $localize`Olá,`,
+      classes: 'text-3xl md:text-3xl',
+    },
+    { type: 'plain', content: ' ' },
+    {
+      type: 'styled',
+      content: $localize`sou o Felipe!`,
+      classes: 'text-3xl md:text-3xl font-semibold',
+    },
+    { type: 'plain', content: '\n' },
+    {
+      type: 'styled',
+      content: $localize`Seja bem-vindo ao meu Portfólio.`,
+      classes: 'text-lg md:text-3xl text-gray-400',
+    },
+  ];
+
+  sloganLine1 = $localize`Think(big);`;
+  sloganLine2 = $localize`Deploy(great);`;
+  sloganDescription = $localize`Construa qualquer coisa que você imaginar, sem se preocupar com a implementação.`;
+  ctaButtonLabel = $localize`Iniciar Exploração`;
 
   ngOnInit() {
     const navigationState = history.state;
-    // Define a rota destino baseada no state ou usa '/projects' como padrão
     this.requestedTargetRoute = navigationState?.targetRoute || '/projects';
 
     if (navigationState?.animated === true) {
@@ -78,8 +97,7 @@ export class IntroComponent implements OnInit, OnDestroy {
         if (!this.isTransitioning) this.startSequence();
       }, 150);
     } else {
-      this.requestedTargetRoute = '/projects'; // Garante destino padrão no load normal
-      // this.onTypingComplete(); // Mostra botão direto se não usar typing
+      this.requestedTargetRoute = '/projects';
     }
   }
 
@@ -105,7 +123,7 @@ export class IntroComponent implements OnInit, OnDestroy {
         this.hyperspaceCompleteSub = this.animationService.hyperspaceComplete$
           .pipe(take(1), takeUntil(this.destroy$))
           .subscribe(() => {
-            this.router.navigate([this.requestedTargetRoute]); // Navega para /projects ou /about
+            this.router.navigate([this.requestedTargetRoute]);
             this.isTransitioning = false;
           });
       }, 700);
