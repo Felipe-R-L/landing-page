@@ -22,7 +22,7 @@
             "browser": "src/main.ts",
             "polyfills": ["zone.js", "@angular/localize/init"],
             "tsConfig": "tsconfig.app.json",
-            "localize": ["en-US"],
+            "localize": ["en-US", "br"],
             "assets": [
               {
                 "glob": "**/*",
@@ -34,6 +34,7 @@
           },
           "configurations": {
             "production": {
+              "localize": true,
               "budgets": [
                 {
                   "type": "initial",
