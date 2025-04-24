@@ -1,22 +1,40 @@
 {
-  "$schema": "https://openapi.vercel.sh/vercel.json",
   "rewrites": [
     {
-      "source": "dist/landing-page/pt/:path*",
-      "destination": "/pt/:path*"
+      "source": "/en-US",
+      "destination": "/en-US/index.html"
     },
     {
-      "source": "dist/landing-page/en-US/:path*",
-      "destination": "dist/landing-page/en-US/:path*"
+      "source": "/en-US/",
+      "destination": "/en-US/index.html"
     },
     {
-      "source": "dist/landing-page/",
+      "source": "/en-US/(.*)",
+      "destination": "/en-US/$1"
+    },
+    {
+      "source": "/pt",
       "destination": "/pt/index.html"
     },
-
     {
-      "source": "/:path*",
-      "destination": "/pt-BR/:path*"
+      "source": "/pt/",
+      "destination": "/pt/index.html"
+    },
+    {
+      "source": "/pt/(.*)",
+      "destination": "/pt/$1"
+    },
+    {
+      "source": "/",
+      "destination": "/pt/index.html"
+    },
+    {
+      "source": "/en-US/:path((?!.*\\.).*)",
+      "destination": "/en-US/index.html"
+    },
+    {
+      "source": "/pt/:path((?!.*\\.).*)",
+      "destination": "/pt/index.html"
     }
   ]
 }
