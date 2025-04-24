@@ -1,10 +1,13 @@
 {
-   "workbench.colorCustomizations": {
-      "commandCenter.border": "#e7e7e799",
-      "titleBar.activeBackground": "#bf04a2",
-      "titleBar.activeForeground": "#e7e7e7",
-      "titleBar.inactiveBackground": "#bf04a299",
-      "titleBar.inactiveForeground": "#e7e7e799"
-   },
-   "peacock.color": "#bf04a2"
+  "workbench.colorCustomizations": {
+    "commandCenter.border": "#e7e7e799",
+    "titleBar.activeBackground": "#bf04a2",
+    "titleBar.activeForeground": "#e7e7e7",
+    "titleBar.inactiveBackground": "#bf04a299",
+    "titleBar.inactiveForeground": "#e7e7e799"
+  },
+  "peacock.color": "#bf04a2",
+  "i18n-ally.localesPaths": ["src/locales"], // Ou o caminho correto
+  "i18n-ally.sourceLanguage": "pt-BR", // Ou seu idioma fonte
+  "i18n-ally.enabledFrameworks": ["custom"] // ESSENCIAL para ativar o modo Angular
 }

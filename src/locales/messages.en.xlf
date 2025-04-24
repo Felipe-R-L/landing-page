@@ -1,0 +1,381 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file source-language="br" datatype="plaintext" original="ng2.template">
+    <body>
+      <trans-unit id="1899252502020821524" datatype="html">
+        <source>landing-page</source>
+        <target>Landing-Page</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.ts</context>
+          <context context-type="linenumber">17</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="220261258928020804" datatype="html">
+        <source>Made by Felipe Rodrigues!</source>
+        <target>Made by Felipe Rodrigues!</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/layout/footer/footer.component.html</context>
+          <context context-type="linenumber">2,3</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8276413324145668801" datatype="html">
+        <source> Sobre Mim </source>
+        <target> About me </target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/about/about.component.html</context>
+          <context context-type="linenumber">8,9</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="316509725772872372" datatype="html">
+        <source>Intro</source>
+        <target>Intro</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/layout/header/header.component.html</context>
+          <context context-type="linenumber">9,10</context>
+        </context-group>
+      </trans-unit>
+            <trans-unit id="5493241626507351260" datatype="html">
+        <source>Projetos</source>
+        <target>Projects</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/layout/header/header.component.html</context>
+          <context context-type="linenumber">16,17</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5218714191038256300" datatype="html">
+        <source>Sobre Mim</source>
+        <target> About Me </target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/layout/header/header.component.html</context>
+          <context context-type="linenumber">23,24</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/projects/projects.component.html</context>
+          <context context-type="linenumber">258,259</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8276413324145668801" datatype="html">
+        <source> Sobre Mim </source>
+        <target> About Me </target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/about/about.component.html</context>
+          <context context-type="linenumber">8,9</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8445990202959531279" datatype="html">
+        <source>Foto de Perfil de Felipe</source>
+        <target>Felipe's Profile Picture</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/about/about.component.html</context>
+          <context context-type="linenumber">20,21</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1073441948281557390" datatype="html">
+        <source> Prazer em conhecer! </source>
+        <target> Pleasure to meet you! </target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/about/about.component.html</context>
+          <context context-type="linenumber">27,28</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1367637419518418913" datatype="html">
+        <source> Olá, meu nome é Felipe Rodrigues Leone! Minha especialidade é desenvolver interfaces originais e inovadoras. </source>
+        <target> Hello, my name is Felipe Rodrigues Leone! I'm specialized in creating original and innovative UI</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/about/about.component.html</context>
+          <context context-type="linenumber">34,35</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1043843817454513301" datatype="html">
+        <source> Gosto de aprender novas tecnologias e trabalhar em projetos desafiadores, sempre dando o absoluto melhor de mim. Meu propósito é melhorar incansávelmente, dia após dia. </source>
+        <target> I love learning about new tech and working at challenging projects, always giving my absolute best. My porpuse is to improve tirelessly, day after day. </target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/about/about.component.html</context>
+          <context context-type="linenumber">38,40</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1096796975547006798" datatype="html">
+        <source> Como desenvolvedor, acredito em escrever código limpo, reutilizável e fácil de entender, seguindo princípios SOLID e aplicando os padrões de projeto adequados para cada situação. </source>
+        <target> As a developer, I believe in writing clean, reusable and easy-to-read code, following SOLID principles and applying the design patterns that suits each situation </target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/about/about.component.html</context>
+          <context context-type="linenumber">43,45</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8681249208797918402" datatype="html">
+        <source>Estou pronto para colocar suas ideias em prática.</source>
+        <target>I'm ready to put your ideas in practice!</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/about/about.component.html</context>
+          <context context-type="linenumber">47,48</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8281280828802404905" datatype="html">
+        <source>Conecte-se comigo:</source>
+        <target>Connect with me:</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/about/about.component.html</context>
+          <context context-type="linenumber">54,55</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5272311336465898168" datatype="html">
+        <source>pi pi-linkedin</source>
+        <target>pi pi-linkedin</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/about/about.component.ts</context>
+          <context context-type="linenumber">55</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5565678945733065709" datatype="html">
+        <source>Meu perfil no LinkedIn</source>
+        <target>My LinkedIn profile</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/about/about.component.ts</context>
+          <context context-type="linenumber">56</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8645885428456486367" datatype="html">
+        <source>pi pi-github</source>
+        <target>pi pi-github</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/about/about.component.ts</context>
+          <context context-type="linenumber">61</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6753838443178131107" datatype="html">
+        <source>Meus repositórios no GitHub</source>
+        <target>My GitHub repositories</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/about/about.component.ts</context>
+          <context context-type="linenumber">62</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5242047277167465033" datatype="html">
+        <source>pi pi-twitter</source>
+        <target>pi pi-twitter</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/about/about.component.ts</context>
+          <context context-type="linenumber">67</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6753322289684237185" datatype="html">
+        <source>Meu perfil no Twitter/X</source>
+        <target>My profile on Twitter/X</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/about/about.component.ts</context>
+          <context context-type="linenumber">68</context>
+        </context-group>
+      </trans-unit>
+            <trans-unit id="7085171775567390561" datatype="html">
+        <source>Olá,</source>
+         <target>Hello,</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/intro/intro.component.ts</context>
+          <context context-type="linenumber">67</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3796607301690435404" datatype="html">
+        <source>sou o Felipe!</source>
+        <target>I'm Felipe.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/intro/intro.component.ts</context>
+          <context context-type="linenumber">73</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3544694658925039153" datatype="html">
+        <source>Seja bem-vindo ao meu Portfólio.</source>
+         <target>Welcome to my Portfolio!</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/intro/intro.component.ts</context>
+          <context context-type="linenumber">79</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3380090388405621434" datatype="html">
+        <source>Think(big);</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/intro/intro.component.ts</context>
+          <context context-type="linenumber">63</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2134527786380089703" datatype="html">
+        <source>Deploy(great);</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/intro/intro.component.ts</context>
+          <context context-type="linenumber">64</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3627895459707065682" datatype="html">
+        <source>Construa qualquer coisa que você imaginar, sem se preocupar com a implementação.</source>
+        <target>Build anything you imagine without worrying about the details.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/intro/intro.component.ts</context>
+          <context context-type="linenumber">65</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3954105764865144903" datatype="html">
+        <source>Iniciar Exploração</source>
+        <target>Explore</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/intro/intro.component.ts</context>
+          <context context-type="linenumber">66</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2705057973003254462" datatype="html">
+        <source> Projetos em Destaque </source>
+        <target>Highlighted Projects</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/projects/projects.component.html</context>
+          <context context-type="linenumber">10,11</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5851401802419826692" datatype="html">
+        <source> Infelizmente alguns projetos abaixo estão sob NDA, impedindo que eu forneça muitos detalhes, mas em breve irei adicionar novos projetos pessoais open source. </source>
+        <target> Unfortunately some projects are under NDA, keeping me from sharing details, but I plan on adding new open source personal projects! </target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/projects/projects.component.html</context>
+          <context context-type="linenumber">17,19</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6075399735267752392" datatype="html">
+        <source>SaaS para Agronegócio</source>
+        <target>Agriculture SaaS</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/projects/projects.component.html</context>
+          <context context-type="linenumber">29,30</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3494282821345929514" datatype="html">
+        <source> SaaS para Agronegócio </source>
+        <target> Agriculture SaaS </target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/projects/projects.component.html</context>
+          <context context-type="linenumber">36</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3902102660338251294" datatype="html">
+        <source> Aplicação web completa para monitoramento de falhas de plantio com mapa interativo - Google Maps API </source>
+        <target> Web application for monitoring failures in the planting process using an interative map - Google Maps API </target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/projects/projects.component.html</context>
+          <context context-type="linenumber">52,53</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6537342766321774807" datatype="html">
+        <source>Ver Demo</source>
+        <target>Preview</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/projects/projects.component.html</context>
+          <context context-type="linenumber">60,61</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/projects/projects.component.html</context>
+          <context context-type="linenumber">118,119</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/projects/projects.component.html</context>
+          <context context-type="linenumber">171,172</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5274935149041772871" datatype="html">
+        <source>Sob NDA</source>
+        <target>NDA Protected</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/projects/projects.component.html</context>
+          <context context-type="linenumber">63,64</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/projects/projects.component.html</context>
+          <context context-type="linenumber">73,74</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/projects/projects.component.html</context>
+          <context context-type="linenumber">120,121</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/projects/projects.component.html</context>
+          <context context-type="linenumber">130,131</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8092481494731054331" datatype="html">
+        <source>Código</source>
+        <target>Code</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/projects/projects.component.html</context>
+          <context context-type="linenumber">71</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/projects/projects.component.html</context>
+          <context context-type="linenumber">129</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/projects/projects.component.html</context>
+          <context context-type="linenumber">180</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6730465911159368046" datatype="html">
+        <source>SaaS para Perfuratrizes</source>
+        <target>Ground Boring SaaS</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/projects/projects.component.html</context>
+          <context context-type="linenumber">87,88</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3546079616811627196" datatype="html">
+        <source> SaaS para perfuratrizes </source>
+        <target> Ground Boring SaaS </target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/projects/projects.component.html</context>
+          <context context-type="linenumber">94</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2055852660810600432" datatype="html">
+        <source> Contribuição para uma plataforma de telemetria perfuratrizes. Elaboração de um dashboard para monitoramento do motor diesel. </source>
+        <target> Contribution to a ground boring machine real-time telemetry dashboard. Diesel engine page layout and coding. </target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/projects/projects.component.html</context>
+          <context context-type="linenumber">110,111</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7502252427471634877" datatype="html">
+        <source> Novo Projeto em Breve... </source>
+        <target> Coming Soon... </target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/projects/projects.component.html</context>
+          <context context-type="linenumber">151</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4116225318053158296" datatype="html">
+        <source>...</source>
+        <target>...</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/projects/projects.component.html</context>
+          <context context-type="linenumber">159</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7437846608413496795" datatype="html">
+        <source> Estou trabalhando em novos projetos pessoais e estudos. Volte em breve para novidades! </source>
+        <target> I'm working on new personal projects and studies. Come back later to see more!</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/projects/projects.component.html</context>
+          <context context-type="linenumber">164,165</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7428860343039687757" datatype="html">
+        <source> Minhas Skills </source>
+        <target> My Skills </target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/projects/projects.component.html</context>
+          <context context-type="linenumber">194,195</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5218714191038256300" datatype="html">
+        <source>Sobre Mim</source>
+        <target>About Me</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/projects/projects.component.html</context>
+          <context context-type="linenumber">258,259</context>
+        </context-group>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
