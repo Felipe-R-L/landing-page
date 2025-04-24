@@ -1,12 +1,25 @@
+{
+  "public": "dist/browser",
+  "i18n": {
+    "locales": ["pt", "en-US"],
+    "defaultLocale": "pt"
+  },
+  "rewrites": [
     {
-      "rewrites": [
-        {
-          "source": "/:lang(pt|en-US|...)",
-          "destination": "/:lang/index.html"
-        },
-        {
-         "source": "/(.*)",
-         "destination": "/en-US/$1"
-        }
-      ]
+      "source": "/:locale(pt|en-US)",
+      "destination": "/:locale/index.html"
+    },
+    {
+      "source": "/:locale(pt|en-US)/:path*",
+      "destination": "/:locale/:path*"
+    },
+    {
+      "source": "/",
+      "destination": "/pt/index.html"
+    },
+    {
+      "source": "/:path*",
+      "destination": "/pt/:path*"
     }
+  ]
+}
