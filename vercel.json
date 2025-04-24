@@ -1,25 +1,23 @@
 {
+  "$schema": "https://openapi.vercel.sh/vercel.json",
   "public": "dist/browser",
-  "i18n": {
-    "locales": ["pt", "en-US"],
-    "defaultLocale": "pt"
-  },
   "rewrites": [
     {
-      "source": "/:locale(pt|en-US)",
-      "destination": "/:locale/index.html"
+      "source": "/pt/:path*",
+      "destination": "/pt/:path*"
     },
     {
-      "source": "/:locale(pt|en-US)/:path*",
-      "destination": "/:locale/:path*"
+      "source": "/en-US/:path*",
+      "destination": "/en-US/:path*"
     },
     {
       "source": "/",
       "destination": "/pt/index.html"
     },
+
     {
       "source": "/:path*",
-      "destination": "/pt/:path*"
+      "destination": "/pt-BR/:path*"
     }
   ]
 }
