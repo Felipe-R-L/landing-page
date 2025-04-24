@@ -1,12 +1,46 @@
+{
+  "rewrites": [
     {
-      "rewrites": [
-        {
-          "source": "/:lang(pt|en-US|...)",
-          "destination": "/:lang/index.html"
-        },
-        {
-         "source": "/(.*)",
-         "destination": "/en-US/$1"
-        }
-      ]
-    }
+      "source": "/en-US",
+      "destination": "/en-US/index.html"
+    },
+    {
+      "source": "/en-US/",
+      "destination": "/en-US/index.html"
+    },
+    {
+      "source": "/en-US/(.*)",
+      "destination": "/en-US/$1"
+    },
+
+    {
+      "source": "/pt", 
+      "destination": "/pt/index.html"
+    },
+    {
+      "source": "/pt/",
+      "destination": "/pt/index.html"
+    },
+    {
+      "source": "/pt/(.*)",
+      "destination": "/pt/$1"
+    },
+
+    //root ('/')
+
+    {
+      "source": "/",
+      "destination": "/pt/index.html"
+    },
+
+  
+     {
+       "source": "/en-US/:path((?!.*\\.).*)", 
+       "destination": "/en-US/index.html"
+     },
+     {
+       "source": "/pt/:path((?!.*\\.).*)",
+       "destination": "/pt/index.html"
+     }
+  ]
+}
