@@ -1,17 +1,16 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "public": "dist/browser",
   "rewrites": [
     {
-      "source": "/pt/:path*",
+      "source": "dist/landing-page/pt/:path*",
       "destination": "/pt/:path*"
     },
     {
-      "source": "/en-US/:path*",
-      "destination": "/en-US/:path*"
+      "source": "dist/landing-page/en-US/:path*",
+      "destination": "dist/landing-page/en-US/:path*"
     },
     {
-      "source": "/",
+      "source": "dist/landing-page/",
       "destination": "/pt/index.html"
     },
 
