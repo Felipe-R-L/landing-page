@@ -5,14 +5,11 @@
   "projects": {
     "landing-page": {
       "i18n": {
-        "sourceLocale": {
-          "code": "pt",
-          "baseHref": "/pt"
-        },
+        "sourceLocale": { "code": "pt", "baseHref": "/" },
         "locales": {
           "en-US": {
             "translation": "src/locales/messages.en.xlf",
-            "baseHref": "/en-US/"
+            "baseHref": "en-US/"
           }
         }
       },
