@@ -1,9 +1,7 @@
 {
   "rewrites": [
-
     { "source": "/en-US/:path*", "destination": "/en-US/index.html" },
-
-    { "source": "/pt/:path*",   "destination": "/index.html" },
-    { "source": "/:path*",      "destination": "/index.html" }
+    { "source": "/pt/:path*",   "destination": "/pt/index.html" },
+    { "source": "/:path*",      "destination": "/pt/index.html" }
   ]
 }

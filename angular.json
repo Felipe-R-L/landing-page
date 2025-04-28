@@ -6,13 +6,13 @@
     "landing-page": {
       "i18n": {
         "sourceLocale": {
-          "code": "pt",
-          "baseHref": "/"
+          "code": "en-US",
+          "baseHref": "/en-US/"
         },
         "locales": {
-          "en-US": {
-            "translation": "src/locales/messages.en.xlf",
-            "baseHref": "en-US/"
+          "pt": {
+            "translation": "src/locales/messages.xlf",
+            "baseHref": "/"
           }
         }
       },
