@@ -1,11 +1,14 @@
 {
   "cleanUrls": true,
   "trailingSlash": false,
+
   "rewrites": [
-    { "source": "/en-US/:path*",                "destination": "/en-US/:path*" },
-    { "source": "/en-US/:path((?!.*\\.).*)",    "destination": "/en-US/index.html" },
-    { "source": "/pt/:path*",                   "destination": "/pt/:path*" },
-    { "source": "/pt/:path((?!.*\\.).*)",       "destination": "/pt/index.html" },
-    { "source": "/:path((?!.*\\.).*)",          "destination": "/pt/index.html" }
+    { "source": "/en-US/:path*", "destination": "/en-US/:path*", "locale": false },
+    { "source": "/en-US/:path((?!.*\\.).*)", "destination": "/en-US/index.html", "locale": false },
+
+    { "source": "/pt/:path*", "destination": "/pt/:path*", "locale": false },
+    { "source": "/pt/:path((?!.*\\.).*)", "destination": "/pt/index.html", "locale": false },
+
+    { "source": "/:path((?!.*\\.).*)", "destination": "/pt/index.html", "locale": false }
   ]
 }
