@@ -1,40 +1,20 @@
 {
   "rewrites": [
     {
-      "source": "/en-US",
-      "destination": "/en-US/index.html"
-    },
-    {
       "source": "/en-US/",
       "destination": "/en-US/index.html"
     },
     {
       "source": "/en-US/(.*)",
-      "destination": "/en-US/$1"
-    },
-    {
-      "source": "/pt",
-      "destination": "/pt/index.html"
-    },
-    {
-      "source": "/pt/",
-      "destination": "/pt/index.html"
-    },
-    {
-      "source": "/pt/(.*)",
-      "destination": "/pt/$1"
+      "destination": "/en-US/index.html"
     },
     {
       "source": "/",
-      "destination": "/pt/index.html"
+      "destination": "/en-US/index.html"
     },
     {
       "source": "/en-US/:path((?!.*\\.).*)",
       "destination": "/en-US/index.html"
-    },
-    {
-      "source": "/pt/:path((?!.*\\.).*)",
-      "destination": "/pt/index.html"
     }
   ]
 }
