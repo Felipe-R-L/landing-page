@@ -5,8 +5,16 @@
   "projects": {
     "landing-page": {
       "i18n": {
-        "sourceLocale": "pt",
-        "locales": { "en-US": "src/locales/messages.en.xlf" }
+        "sourceLocale": {
+          "code": "pt",
+          "baseHref": "/"
+        },
+        "locales": {
+          "en-US": {
+            "translation": "src/locales/messages.en.xlf",
+            "baseHref": "en-US/"
+          }
+        }
       },
       "projectType": "application",
       "schematics": {},
