@@ -5,11 +5,11 @@
   "projects": {
     "landing-page": {
       "i18n": {
-        "sourceLocale": { "code": "pt", "baseHref": "/pt" },
+        "sourceLocale": { "code": "pt", "baseHref": "/pt/" },
         "locales": {
           "en-US": {
             "translation": "src/locales/messages.en.xlf",
-            "baseHref": "en-US/"
+            "baseHref": "/en-US/"
           }
         }
       },
@@ -27,7 +27,7 @@
             "browser": "src/main.ts",
             "polyfills": ["zone.js", "@angular/localize/init"],
             "tsConfig": "tsconfig.app.json",
-            "localize": ["en-US"],
+            "localize": ["en-US", "pt"],
             "assets": [
               {
                 "glob": "**/*",
