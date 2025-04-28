@@ -5,7 +5,7 @@
   "projects": {
     "landing-page": {
       "i18n": {
-        "sourceLocale": { "code": "pt", "baseHref": "/" },
+        "sourceLocale": { "code": "pt", "baseHref": "/pt" },
         "locales": {
           "en-US": {
             "translation": "src/locales/messages.en.xlf",
@@ -27,7 +27,7 @@
             "browser": "src/main.ts",
             "polyfills": ["zone.js", "@angular/localize/init"],
             "tsConfig": "tsconfig.app.json",
-            "localize": ["en-US", "pt"],
+            "localize": ["en-US"],
             "assets": [
               {
                 "glob": "**/*",
