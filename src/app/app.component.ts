@@ -30,8 +30,8 @@ export class AppComponent implements OnInit {
   }
 
   private redirectToCorrectLocale(): void {
-    const supportedLocales = ['pt-BR', 'en-US'];
-    const defaultLocale = 'pt-BR';
+    const supportedLocales = ['pt', 'en-US'];
+    const defaultLocale = 'pt';
     const localeStorageKey = 'user_preferred_locale';
 
     const currentPath = window.location.pathname;
