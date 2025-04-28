@@ -6,7 +6,7 @@
     "landing-page": {
       "i18n": {
         "sourceLocale": "pt",
-        "locales": { "en-US": "src/locales/messages.en.xlf" }
+        "locales": { "pt": "src/locales/messages.xlf", "en-US": "src/locales/messages.en.xlf" }
       },
       "projectType": "application",
       "schematics": {},

@@ -1,7 +1,7 @@
 import { ApplicationConfig, provideZoneChangeDetection, LOCALE_ID } from '@angular/core';
 import { registerLocaleData } from '@angular/common';
 import localePt from '@angular/common/locales/pt';
-registerLocaleData(localePt, 'pt-BR');
+registerLocaleData(localePt, 'pt');
 import { provideRouter } from '@angular/router';
 //PrimeNG imports
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
