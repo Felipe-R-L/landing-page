@@ -2,55 +2,38 @@ import Negotiator from 'negotiator';
 import { match } from '@formatjs/intl-localematcher';
 
 const supportedLocales = ['pt', 'en-US'];
-const defaultLocale = 'pt'; // DEFINA SEU PADRÃO AQUI
+const defaultLocale = 'en-US';
 const targetLocaleForOthers = 'en-US';
 
 function getBestLocale(request: Request): string {
   const headers: Record<string, string> = {};
   request.headers.forEach((v, k) => (headers[k] = v));
   const languages = new Negotiator({ headers }).languages();
-  try {
-    return match(languages, supportedLocales, defaultLocale);
-  } catch {
-    return defaultLocale;
-  }
+  return match(languages, supportedLocales, defaultLocale);
 }
 
-export function middleware(request: Request) {
+export default function middleware(request: Request) {
   const url = new URL(request.url);
-  const pathname = url.pathname;
+  const p = url.pathname;
 
-  const isApi = pathname.startsWith('/api/');
-  const isAsset = /\.\w+$/.test(pathname);
-  const isVercelInternal = pathname.startsWith('/_vercel/');
-  const isStaticAssetFolder =
-    pathname.startsWith('/assets/') ||
-    pathname.startsWith('/images/') ||
-    pathname.startsWith('/static/'); // Adicione outras pastas se necessário
+  const isApi = p.startsWith('/api/');
+  const isAsset = /\.\w+$/.test(p);
+  const isStatic =
+    p.startsWith('/assets/') ||
+    p.startsWith('/images/') ||
+    p.startsWith('/static/');
+  if (isApi || isAsset || isStatic) return undefined;
 
-  if (isApi || isAsset || isVercelInternal || isStaticAssetFolder) {
-    return undefined;
-  }
-
-  const pathnameIsMissingLocale = supportedLocales.every(
-    (locale) => !pathname.startsWith(`/${locale}/`) && pathname !== `/${locale}`
+  const missingLocale = supportedLocales.every(
+    (loc) => !p.startsWith(`/${loc}/`) && p !== `/${loc}`
   );
-
-  if (pathnameIsMissingLocale) {
-    const bestLocale = getBestLocale(request);
-    const targetLocale = bestLocale === 'pt' ? 'pt' : targetLocaleForOthers;
-
-    const destinationUrl = new URL(request.url);
-    destinationUrl.pathname = `/${targetLocale}${
-      pathname.startsWith('/') ? '' : '/'
-    }${pathname}`;
-    if (url.search) {
-      destinationUrl.search = url.search;
-    }
-
+  if (missingLocale) {
+    const best = getBestLocale(request);
+    const target = best === 'pt' ? 'pt' : targetLocaleForOthers;
+    url.pathname = `/${target}${p}`;
     return new Response(null, {
       status: 307,
-      headers: { Location: destinationUrl.toString() },
+      headers: { Location: url.toString() },
     });
   }
 
@@ -58,8 +41,5 @@ export function middleware(request: Request) {
 }
 
 export const config = {
-  matcher: [
-    '/((?!api|_next/static|_next/image|static|images|assets|_vercel|.*\\.\\w+).*)',
-    '/',
-  ],
+  matcher: ['/((?!api|.*\\..*).*)', '/'],
 };
