@@ -1,83 +1,57 @@
-// middleware.ts (Framework-Agnóstico COM Logs)
+// middleware.ts  (put in the project root, alongside your Angular `dist` folder)
 import Negotiator from 'negotiator';
 import { match } from '@formatjs/intl-localematcher';
 
-// --- Configuração ---
 const supportedLocales = ['pt', 'en-US'];
-const defaultLocale = 'pt';
-const targetLocaleForOthers = 'en-US';
-// --------------------
+const defaultLocale = 'en-US'; // fallback when nothing matches
 
-type MiddlewareRequest = Request;
-
-function getBestLocale(request: MiddlewareRequest): string {
-  const acceptLanguageHeader = request.headers.get('accept-language');
-  console.log(`[Middleware] Accept-Language Header: ${acceptLanguageHeader}`);
-
-  const negotiatorHeaders: Record<string, string> = {};
-  request.headers.forEach((value, key) => (negotiatorHeaders[key] = value));
-
-  let languages = new Negotiator({ headers: negotiatorHeaders }).languages();
-  console.log(
-    `[Middleware] Negotiator languages(): ${JSON.stringify(languages)}`
-  );
-
-  try {
-    const bestMatch = match(languages, supportedLocales, defaultLocale);
-    console.log(`[Middleware] Locale match(): ${bestMatch}`);
-    return bestMatch;
-  } catch (e) {
-    console.error('[Middleware] Error matching locale:', e);
-    console.log(`[Middleware] Defaulting to: ${defaultLocale}`);
-    return defaultLocale;
-  }
+function getBestLocale(request: Request): string {
+  const headers: Record<string, string> = {};
+  request.headers.forEach((v, k) => (headers[k] = v));
+  const languages = new Negotiator({ headers }).languages();
+  return match(languages, supportedLocales, defaultLocale);
 }
 
-export function middleware(request: MiddlewareRequest) {
+export default async function middleware(request: Request) {
   const url = new URL(request.url);
-  const pathname = url.pathname;
-  console.log(`\n[Middleware] Executing for URL: ${request.url}`);
-  console.log(`[Middleware] Pathname: ${pathname}`);
+  const p = url.pathname;
 
-  const pathnameIsMissingLocale = supportedLocales.every(
-    (locale) => !pathname.startsWith(`/${locale}/`) && pathname !== `/${locale}`
-  );
-  console.log(
-    `[Middleware] pathnameIsMissingLocale: ${pathnameIsMissingLocale}`
-  );
-
-  if (pathnameIsMissingLocale) {
-    const bestLocale = getBestLocale(request);
-
-    const targetLocale = bestLocale === 'pt' ? 'pt' : targetLocaleForOthers;
-    console.log(`[Middleware] Determined targetLocale: ${targetLocale}`);
-
-    const newUrl = new URL(request.url);
-    newUrl.pathname = `/${targetLocale}${
-      pathname.startsWith('/') ? '' : '/'
-    }${pathname}`;
-    if (url.search) {
-      // Preserva query params
-      newUrl.search = url.search;
+  // 1️⃣  If this is an asset or API, let it through (no redirect):
+  const isAsset =
+    p.startsWith('/assets/') ||
+    p.startsWith('/images/') ||
+    /\.\w+$/.test(p) || // any “.js/.css/.png/etc” file
+    p.startsWith('/api/');
+  if (isAsset) {
+    //—but if it’s an asset _with_ a locale prefix, strip it off:
+    const m = p.match(/^\/(pt|en-US)(\/assets\/.*)/);
+    if (m) {
+      const rewritten = url.origin + m[2] + url.search;
+      return fetch(new Request(rewritten, request));
     }
-
-    console.log(`[Middleware] Redirecting to: ${newUrl.toString()}`);
-
-    return new Response(null, {
-      status: 307,
-      headers: {
-        Location: newUrl.toString(),
-      },
-    });
+    return fetch(request);
   }
 
-  console.log('[Middleware] Pathname already has locale. Passing through.');
-  return undefined;
+  // 2️⃣  If it already has a locale prefix, just let it through
+  if (
+    supportedLocales.some((loc) => p === `/${loc}` || p.startsWith(`/${loc}/`))
+  ) {
+    return fetch(request);
+  }
+
+  // 3️⃣  Otherwise—no locale in the path—detect & redirect
+  const best = getBestLocale(request);
+  const destination = `${url.origin}/${best}${p}${url.search}`;
+  return new Response(null, {
+    status: 307,
+    headers: { Location: destination },
+  });
 }
 
 export const config = {
   matcher: [
-    '/((?!api|_next/static|_next/image|static|images|assets|.*\\..*).*)',
+    // run on everything except static file‐extensions and /api
+    '/((?!api|.*\\..*).*)',
     '/',
   ],
 };

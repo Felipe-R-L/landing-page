@@ -25,18 +25,12 @@ import { take, takeUntil } from 'rxjs/operators';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { ChipModule } from 'primeng/chip';
-import { TooltipModule } from 'primeng/tooltip'; // <<--- IMPORTAR TOOLTIPMODULE
+import { TooltipModule } from 'primeng/tooltip';
 
 @Component({
   selector: 'app-projects',
   standalone: true,
-  imports: [
-    CommonModule,
-    ButtonModule,
-    CardModule,
-    ChipModule,
-    TooltipModule, // <<--- ADICIONAR AOS IMPORTS
-  ],
+  imports: [CommonModule, ButtonModule, CardModule, ChipModule, TooltipModule],
   templateUrl: './projects.component.html',
   styleUrls: ['./projects.component.css'],
   animations: [
@@ -50,8 +44,6 @@ import { TooltipModule } from 'primeng/tooltip'; // <<--- IMPORTAR TOOLTIPMODULE
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProjectsComponent implements OnInit, OnDestroy {
-  // ... (Restante do seu código TS como estava antes) ...
-
   portfolioState: 'hidden' | 'visible' = 'hidden';
   isTransitioning = false;
 
