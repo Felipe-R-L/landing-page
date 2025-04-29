@@ -3,43 +3,43 @@ import { match } from '@formatjs/intl-localematcher';
 
 const supportedLocales = ['pt', 'en-US'];
 const defaultLocale = 'en-US';
-const targetLocaleForOthers = 'en-US';
 
-function getBestLocale(request: Request): string {
+function getBestLocale(request: Request) {
   const headers: Record<string, string> = {};
   request.headers.forEach((v, k) => (headers[k] = v));
-  const languages = new Negotiator({ headers }).languages();
-  return match(languages, supportedLocales, defaultLocale);
+  const langs = new Negotiator({ headers }).languages();
+  return match(langs, supportedLocales, defaultLocale);
 }
 
-export default function middleware(request: Request) {
+export default async function middleware(request: Request) {
   const url = new URL(request.url);
   const p = url.pathname;
 
-  const isApi = p.startsWith('/api/');
-  const isAsset = /\.\w+$/.test(p);
-  const isStatic =
+  if (
+    p.startsWith('/api/') ||
+    /\.\w+$/.test(p) ||
     p.startsWith('/assets/') ||
-    p.startsWith('/images/') ||
-    p.startsWith('/static/');
-  if (isApi || isAsset || isStatic) return undefined;
-
-  const missingLocale = supportedLocales.every(
-    (loc) => !p.startsWith(`/${loc}/`) && p !== `/${loc}`
-  );
-  if (missingLocale) {
-    const best = getBestLocale(request);
-    const target = best === 'pt' ? 'pt' : targetLocaleForOthers;
-    url.pathname = `/${target}${p}`;
-    return new Response(null, {
-      status: 307,
-      headers: { Location: url.toString() },
-    });
+    p.startsWith('/images/')
+  ) {
+    return undefined;
   }
 
-  return undefined;
+  const hasLocale = supportedLocales.find(
+    (loc) => p === `/${loc}` || p.startsWith(`/${loc}/`)
+  );
+  if (hasLocale) {
+    const indexPath = `${hasLocale}/index.html`;
+    return fetch(new Request(`${url.origin}/${indexPath}`, request));
+  }
+
+  const best = getBestLocale(request);
+  url.pathname = `/${best}${p}`;
+  return new Response(null, {
+    status: 307,
+    headers: { Location: url.toString() },
+  });
 }
 
 export const config = {
-  matcher: ['/((?!api|.*\\..*).*)', '/'],
+  matcher: ['/', '/((?!api|.*\\..*).*)'],
 };
