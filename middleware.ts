@@ -1,47 +1,67 @@
-// middleware.ts (Versão para Angular / Framework-Agnóstica)
-
+// middleware.ts (Framework-Agnóstico COM Logs)
 import Negotiator from 'negotiator';
 import { match } from '@formatjs/intl-localematcher';
 
+// --- Configuração ---
 const supportedLocales = ['pt', 'en-US'];
-const defaultLocale = 'en-US';
-const fallbackLocale = 'pt';
+const defaultLocale = 'pt';
+const targetLocaleForOthers = 'en-US';
+// --------------------
 
 type MiddlewareRequest = Request;
 
 function getBestLocale(request: MiddlewareRequest): string {
+  const acceptLanguageHeader = request.headers.get('accept-language');
+  console.log(`[Middleware] Accept-Language Header: ${acceptLanguageHeader}`);
+
   const negotiatorHeaders: Record<string, string> = {};
   request.headers.forEach((value, key) => (negotiatorHeaders[key] = value));
 
   let languages = new Negotiator({ headers: negotiatorHeaders }).languages();
+  console.log(
+    `[Middleware] Negotiator languages(): ${JSON.stringify(languages)}`
+  );
+
   try {
-    return match(languages, supportedLocales, defaultLocale);
+    const bestMatch = match(languages, supportedLocales, defaultLocale);
+    console.log(`[Middleware] Locale match(): ${bestMatch}`);
+    return bestMatch;
   } catch (e) {
-    console.warn('Error matching locale, defaulting to:', defaultLocale, e);
+    console.error('[Middleware] Error matching locale:', e);
+    console.log(`[Middleware] Defaulting to: ${defaultLocale}`);
     return defaultLocale;
   }
 }
 
 export function middleware(request: MiddlewareRequest) {
-  const pathname = new URL(request.url).pathname;
+  const url = new URL(request.url);
+  const pathname = url.pathname;
+  console.log(`\n[Middleware] Executing for URL: ${request.url}`);
+  console.log(`[Middleware] Pathname: ${pathname}`);
 
-  // 1. Verifica se o caminho já inclui um dos locales suportados
   const pathnameIsMissingLocale = supportedLocales.every(
     (locale) => !pathname.startsWith(`/${locale}/`) && pathname !== `/${locale}`
+  );
+  console.log(
+    `[Middleware] pathnameIsMissingLocale: ${pathnameIsMissingLocale}`
   );
 
   if (pathnameIsMissingLocale) {
     const bestLocale = getBestLocale(request);
-    const targetLocale = bestLocale === 'pt' ? 'pt' : fallbackLocale;
+
+    const targetLocale = bestLocale === 'pt' ? 'pt' : targetLocaleForOthers;
+    console.log(`[Middleware] Determined targetLocale: ${targetLocale}`);
 
     const newUrl = new URL(request.url);
     newUrl.pathname = `/${targetLocale}${
       pathname.startsWith('/') ? '' : '/'
     }${pathname}`;
+    if (url.search) {
+      // Preserva query params
+      newUrl.search = url.search;
+    }
 
-    console.log(
-      `Redirecting from "${pathname}" to "${newUrl.pathname}" based on locale "${bestLocale}"`
-    );
+    console.log(`[Middleware] Redirecting to: ${newUrl.toString()}`);
 
     return new Response(null, {
       status: 307,
@@ -50,6 +70,8 @@ export function middleware(request: MiddlewareRequest) {
       },
     });
   }
+
+  console.log('[Middleware] Pathname already has locale. Passing through.');
   return undefined;
 }
 
